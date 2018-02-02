@@ -22,8 +22,8 @@ class app ():
 		self.screen.fill(white)
 		self.screen.blit(self.bg,(0,0))
 		self.screen.blit(self.platform, (200,600))
-		self.screen.blit(self.platform, (500,500))
-		self.screen.blit(self.platform, (700,300))
+		self.screen.blit(self.platform, (600,500))
+		self.screen.blit(self.platform, (800,250))
 		pygame.display.update()
 	def on_cleanup(self):
 		pygame.quit()
