@@ -1,4 +1,7 @@
 import pygame
+from entity import *
+import events
+import globals 
 from pygame.locals import *
 white=[255,255,255]
 class app ():
@@ -10,20 +13,22 @@ class app ():
 		pygame.init()
 		self.screen=pygame.display.set_mode(self.size,pygame.HWSURFACE|pygame.DOUBLEBUF)
 		self._running=True
-		self.bg=pygame.image.load('blue.png')
-		self.platform=pygame.image.load('platform_transparent.png')
+
+		self.entities=[platform((150,600)),platform((600,500)),platform((800,250)),player((0,0))]
+		# (self.platform,(150,600)),(self.platform,(600,500)),(self.platform, (800,250)), (self.bg,(0,0))
 	def on_event(self,event):
 		if event.type==pygame.QUIT:
 			self._running=False
-			
+		if event.type==pygame.KEYDOWN:
+			if event.key==K_SPACE:
+				return	
 	def on_loop(self):
 		pass
 	def on_render(self):
 		self.screen.fill(white)
-		self.screen.blit(self.bg,(0,0))
-		self.screen.blit(self.platform, (200,600))
-		self.screen.blit(self.platform, (600,500))
-		self.screen.blit(self.platform, (800,250))
+		self.screen.blit(globals.bg, (0,0))
+		for entity in self.entities:
+			self.screen.blit(entity.image,entity.pos)
 		pygame.display.update()
 	def on_cleanup(self):
 		pygame.quit()
