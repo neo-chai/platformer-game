@@ -51,3 +51,15 @@ class player(entity):
 
 	def should_move(self):
 		return True
+
+
+class bottom(platform):
+	def __init__(self,):	
+		entity.__init__(self, globals.bottom,(0,800))
+class cannonball(entity):
+	def __init__(self,pos,speed):
+		entity.__init__(self, globals.cannonball,pos)
+		self.speed_x=speed [0]
+		self.speed_y=speed[1]
+	def should_move(self):
+		return True

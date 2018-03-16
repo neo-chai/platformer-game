@@ -1,6 +1,5 @@
 import pygame
 from entity import *
-import events
 import globals 
 from pygame.locals import *
 white=[255,255,255]
@@ -14,7 +13,7 @@ class app ():
 		self.screen=pygame.display.set_mode(self.size,pygame.HWSURFACE|pygame.DOUBLEBUF)
 		self._running=True
 		self.character = player((0,0))
-		self.entities=[platform((150,600)),platform((600,500)),platform((800,250)),self.character]
+		self.entities=[platform((150,600)),platform((600,500)),platform((800,250)),self.character,entity(globals.cannon,(400,0)),bottom()]
 		# (self.platform,(150,600)),(self.platform,(600,500)),(self.platform, (800,250)), (self.bg,(0,0))
 	def on_event(self,event):
 		if event.type==pygame.QUIT:
@@ -22,8 +21,8 @@ class app ():
 		if event.type==pygame.KEYDOWN:
 			if event.key==K_SPACE:
 				if self.character.remaining_jumps>0:
-					self.character.speed_y -= 5
-					self.character.remainning_jumps-=1
+					self.character.speed_y -= 20
+					self.character.remaining_jumps-=1
 			if event.key==K_d:
 				self.character.speed_x=5
 			if event.key==K_a:
@@ -34,11 +33,14 @@ class app ():
 			if event.key==K_a:
 				self.character.speed_x=0
 	def on_loop(self):
-		print(self.character.remaining_jumps)
-		for entity in self.entities:
+ 		for entity in self.entities:
 			if entity.should_move():
 				entity.move(self.entities)
 				entity.speed_y+=1
+		self.cannon.loops_shot+=1
+		if self.cannon.loops_shot > 100:
+			self.cannon.loops_shot=0
+			self.entities.append(cannonball(self.cannon.pos,(0,5)))
 	def on_render(self):
 		self.screen.fill(white)
 		self.screen.blit(globals.bg, (0,0))
