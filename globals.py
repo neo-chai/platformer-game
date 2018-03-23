@@ -8,4 +8,6 @@ cannon=pygame.image.load('cannon.png')
 cannonscale = 10
 cannon=pygame.transform.scale(cannon,(int(1024/cannonscale), int(829/cannonscale)))
 bottom=pygame.transform.scale(platform,(1400,1))
-cannonball=pygame.image.load('cannonball.png')
+cannonball=pygame.image.load('fireball.png')
+cannonballscale=4
+cannonball=pygame.transform.scale(cannonball,(int(356/cannonballscale), int(142/cannonballscale)))

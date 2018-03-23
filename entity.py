@@ -18,6 +18,10 @@ class entity:
 		for entity in entities:
 			if not self==entity:
 				if self.rect.colliderect(entity.rect):
+					if isinstance (self,cannonball) and not isinstance(entity,cannon):
+						entities.remove(self)
+						if isinstance(entity,player):
+							entity.hp-=1
 					if self.speed_y<=0:
 						self.rect.top=entity.rect.top+entity.rect.height
 						self.pos=(self.pos[0],self.rect.top)
@@ -26,7 +30,7 @@ class entity:
 						self.rect.top=entity.rect.top-self.rect.height
 						self.pos=(self.pos[0],self.rect.top)
 						self.speed_y=0
-						self.remaining_jumps=2 #TODO: FIND WHY THIS ISNT RUNNING
+						self.remaining_jumps=2
 		self.rect.left=self.pos[0]
 		for entity in entities:
 			if not self==entity:
@@ -48,6 +52,7 @@ class player(entity):
 	def __init__(self,pos):
 		entity.__init__(self, globals.character,pos)
 		self.remaining_jumps=0
+		self.hp=10
 
 	def should_move(self):
 		return True
@@ -63,3 +68,8 @@ class cannonball(entity):
 		self.speed_y=speed[1]
 	def should_move(self):
 		return True
+
+class cannon (entity):
+	def __init__(self,pos):	
+		entity.__init__(self, globals.cannon,pos)
+		self.loops_shot=0
