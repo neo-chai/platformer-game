@@ -68,10 +68,24 @@ def background():
 	for i in range(4):
 		for j in range(4):
 			square(100,(-300+40+140*i,300-40-140*j),gridcolor,gridcolor)
-			if random.random() < .5:
-				square(100,(-300+40+140*i,300-40-140*j),tilecolors[2],tilecolors[2])
 
-t.speed("fastest")
+def tile(pos, number):
+	if number in tilecolors:
+		square(100,pos,tilecolors[number], tilecolors[number])
+	else:
+		square(100,pos,tilecolors["default"], tilecolors["default"])
+	t.write(number)
+
+def drawgrid(grid):
+	for x in range (4):
+		for y in range (4):
+			if grid [y][x] != "":
+				tile((-300+40+140*x,300-40-140*y),grid[y][x])
+
+grid=[[2]*4,[4]*4,[8]*4,[16]*4]
+t.tracer(0,0)
 t.hideturtle()
 background()
+drawgrid(grid)
+t.update()
 t.done()
