@@ -18,6 +18,16 @@ def is_win(grid):
 			if grid [x][y]==2048:
 				return True
 	return False
+
+def is_lose(grid):
+	if not valid_move(grid,left) and not valid_move(grid,right) and not valid_move(grid,up) and not valid_move(grid,down):
+		return True
+	else :
+		return False
+
+
+
+
 def left (grid):
 	for y in range (4):
 		for x in range (4): 
@@ -74,18 +84,56 @@ def tile(pos, number):
 		square(100,pos,tilecolors[number], tilecolors[number])
 	else:
 		square(100,pos,tilecolors["default"], tilecolors["default"])
-	t.write(number)
+	t.goto((pos [0]+50,pos [1]-85))
+	t.color ("black")
+	t.write(number,align="center",font=("Times New Roman",48,"normal"))
+
 
 def drawgrid(grid):
 	for x in range (4):
 		for y in range (4):
 			if grid [y][x] != "":
 				tile((-300+40+140*x,300-40-140*y),grid[y][x])
+ 
 
-grid=[[2]*4,[4]*4,[8]*4,[16]*4]
+def display():
+	t.clear()
+	background()
+	drawgrid(grid)
+	t.update()
+
+def handleleft ():
+	left (grid)
+	insertnumber(grid)
+	display()
+
+def handleright():
+	right (grid)
+	insertnumber(grid)
+	display() 
+def handleup ():
+	up(grid)
+	insertnumber(grid)
+	display()
+def handledown ():
+	down (grid)
+	insertnumber(grid)
+	display()
+
+
+
+t.onkey(handleleft,"Left")
+t.onkey(handleleft,"Right")
+t.onkey(handleleft,"Up")
+t.onkey(handleleft,"Down")
+
+
+
+
+insertnumber(grid)
+insertnumber(grid)
 t.tracer(0,0)
 t.hideturtle()
-background()
-drawgrid(grid)
-t.update()
-t.done()
+display()
+t.listen()
+t.mainloop()
