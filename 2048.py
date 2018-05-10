@@ -19,6 +19,16 @@ def is_win(grid):
 				return True
 	return False
 
+def copy(grid):
+	return [row.copy() for row in grid]
+
+def valid_move(grid, move):
+	grid2 = copy(grid)
+	move(grid2)
+	if grid2 != grid:
+		return True
+	return False
+
 def is_lose(grid):
 	if not valid_move(grid,left) and not valid_move(grid,right) and not valid_move(grid,up) and not valid_move(grid,down):
 		return True
@@ -35,19 +45,70 @@ def left (grid):
 			pickedup = grid [y][x]
 			grid [y][x] =''
 			for spot in range (x,-2,-1) :
-				if grid [y][spot]=='': continue
 				if spot==-1:
 					grid [y][0]=pickedup
+					break
+				if grid [y][spot]=='': continue
 				if pickedup==grid[y][spot]:
 					grid [y][spot]*=2
+					break
 				else:
 					grid[y][spot+1]=pickedup
+					break
 
+def right (grid):
+	for y in range (4):
+		for x in range (3,-1,-1): 
+			if grid [y][x]=='': continue
+			pickedup = grid [y][x]
+			grid [y][x] =''
+			for spot in range (x,5) :
+				if spot==4:
+					grid [y][3]=pickedup
+					break
+				if grid [y][spot]=='': continue
+				if pickedup==grid[y][spot]:
+					grid [y][spot]*=2
+					break
+				else:
+					grid[y][spot-1]=pickedup
+					break
 
+def up (grid):
+	for x in range (4):
+		for y in range (4): 
+			if grid [y][x]=='': continue
+			pickedup = grid [y][x]
+			grid [y][x] =''
+			for spot in range (y,-2,-1) :
+				if spot==-1:
+					grid [0][x]=pickedup
+					break
+				if grid [spot][x]=='': continue
+				if pickedup==grid[spot][x]:
+					grid [spot][x]*=2
+					break
+				else:
+					grid[spot+1][x]=pickedup
+					break
 
-
-
-
+def down (grid):
+	for x in range (4):
+		for y in range (3,-1,-1): 
+			if grid [y][x]=='': continue
+			pickedup = grid [y][x]
+			grid [y][x] =''
+			for spot in range (y,5) :
+				if spot==4:
+					grid [3][x]=pickedup
+					break
+				if grid [spot][x]=='': continue
+				if pickedup==grid[spot][x]:
+					grid [spot][x]*=2
+					break
+				else:
+					grid[spot-1][x]=pickedup
+					break
 
 
 
@@ -103,29 +164,58 @@ def display():
 	t.update()
 
 def handleleft ():
-	left (grid)
-	insertnumber(grid)
-	display()
+	if valid_move(grid,left):
+		left (grid)
+		insertnumber(grid)
+		display()
+		if is_lose(grid):
+			t.penup()
+			t.goto((0,0))
+			t.pendown()
+			t.write("you lose", align="center", font=("Arial", 48, "bold"))
+			t.update()
 
 def handleright():
-	right (grid)
-	insertnumber(grid)
-	display() 
+	if valid_move(grid,right):
+		right (grid)
+		insertnumber(grid)
+		display() 
+		if is_lose(grid):
+			t.penup()
+			t.goto((0,0))
+			t.pendown()
+			t.write("you lose", align="center", font=("Arial", 48, "bold"))
+			t.update()
+
+
 def handleup ():
-	up(grid)
-	insertnumber(grid)
-	display()
+	if valid_move(grid,up):
+		up(grid)
+		insertnumber(grid)
+		display()
+		if is_lose(grid):
+			t.penup()
+			t.goto((0,0))
+			t.pendown()
+			t.write("you lose", align="center", font=("Arial", 48, "bold"))
+			t.update()
+
 def handledown ():
-	down (grid)
-	insertnumber(grid)
-	display()
-
-
+	if valid_move(grid,down):
+		down (grid)
+		insertnumber(grid)
+		display()
+		if is_lose(grid):
+			t.penup()
+			t.goto((0,0))
+			t.pendown()
+			t.write("you lose", align="center", font=("Arial", 48, "bold"))
+			t.update()
 
 t.onkey(handleleft,"Left")
-t.onkey(handleleft,"Right")
-t.onkey(handleleft,"Up")
-t.onkey(handleleft,"Down")
+t.onkey(handleright,"Right")
+t.onkey(handleup,"Up")
+t.onkey(handledown,"Down")
 
 
 
